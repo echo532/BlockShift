@@ -15,6 +15,12 @@ namespace BlockShift {
     [ComVisible(true)]
     public class State {
 
+        public Board board;
+
+        public void setBoard(Board b) {
+            board = b;
+        }
+
 
 
 
@@ -228,6 +234,8 @@ namespace BlockShift {
                 return dupLocs;
             }
 
+           
+
             public Board clone() {
 
                 //list of locations
@@ -272,7 +280,7 @@ namespace BlockShift {
         }
 
 
-        public Board board;
+        
 
 
         public class Node {

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using static BlockShift.State;
 
 namespace BlockShift {
     public partial class Form1 : Form {
@@ -151,28 +152,47 @@ namespace BlockShift {
         }
 
         private void leftButton_Click(object sender, EventArgs e) {
-            state.board.moveSelectedBlock("left");
+            Board b = state.board.clone();
+            if (state.board.moveSelectedBlock("left")) {
+                UndoManager.instance().record(b);
+            }
             CreateCanvas();
         }
 
         private void upButton_Click(object sender, EventArgs e) {
-            state.board.moveSelectedBlock("up");
+            Board b = state.board.clone();
+            if (state.board.moveSelectedBlock("up")) {
+                UndoManager.instance().record(b);
+            }
             CreateCanvas();
         }
 
         private void rightButton_Click(object sender, EventArgs e) {
-            state.board.moveSelectedBlock("right");
+            Board b = state.board.clone();
+            if (state.board.moveSelectedBlock("right")) {
+                UndoManager.instance().record(b);
+            }
             CreateCanvas();
         }
 
         private void downButton_Click(object sender, EventArgs e) {
-            state.board.moveSelectedBlock("down");
+            Board b = state.board.clone();
+            if (state.board.moveSelectedBlock("down")) {
+                UndoManager.instance().record(b);
+            }
             CreateCanvas();
         }
 
         private void solve_Click(object sender, EventArgs e) {
             State.Node node = state.solve();
             
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (!UndoManager.instance().noMoves()) {
+                state.setBoard(UndoManager.instance().getLast());
+            }
+            CreateCanvas();
         }
     }
 }
