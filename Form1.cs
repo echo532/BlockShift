@@ -157,6 +157,7 @@ namespace BlockShift {
                 UndoManager.instance().record(b);
             }
             CreateCanvas();
+            resetSolve();
         }
 
         private void upButton_Click(object sender, EventArgs e) {
@@ -165,6 +166,7 @@ namespace BlockShift {
                 UndoManager.instance().record(b);
             }
             CreateCanvas();
+            resetSolve();
         }
 
         private void rightButton_Click(object sender, EventArgs e) {
@@ -173,6 +175,7 @@ namespace BlockShift {
                 UndoManager.instance().record(b);
             }
             CreateCanvas();
+            resetSolve();
         }
 
         private void downButton_Click(object sender, EventArgs e) {
@@ -181,17 +184,36 @@ namespace BlockShift {
                 UndoManager.instance().record(b);
             }
             CreateCanvas();
+            resetSolve();
+        }
+
+        private void resetSolve() {
+            nextButton.Enabled = false;
+            SolutionManager.instance().SolutionNode = null;
         }
 
         private void solve_Click(object sender, EventArgs e) {
             State.Node node = state.solve();
-            
+            nextButton.Enabled = true;
+            SolutionManager.instance().SolutionNode = node;
+                
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e) {
             if (!UndoManager.instance().noMoves()) {
                 state.setBoard(UndoManager.instance().getLast());
             }
+            CreateCanvas();
+        }
+
+        private void nextButton_Click(object sender, EventArgs e) {
+            Node currentSolution = SolutionManager.instance().advance();
+
+            state.setBoard(currentSolution.Board);
+            if (SolutionManager.instance().isDone()) {
+                nextButton.Enabled = false;
+            }
+
             CreateCanvas();
         }
     }

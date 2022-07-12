@@ -296,6 +296,7 @@ namespace BlockShift {
 
             public Node Previous {
                 get { return previous; }
+                set { previous = value; }
             }
 
             public String Direction {
@@ -312,7 +313,6 @@ namespace BlockShift {
         public Node solve() {
             Queue<Node> queue = new Queue<Node>();
             HashSet<String> seen = new HashSet<String>();
-            board.SelectedBlock = null;
             Node start = new Node(board.clone(), null, "");
             Debug.Print(start.Board.key());
             queue.Enqueue(start);
